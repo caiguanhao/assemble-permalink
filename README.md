@@ -129,6 +129,38 @@ and then in your pages, set title and moment.js-favored date:
 
 there you'll have 2013/01/example/index.html.
 
+Another example generating the permalink of page having a Unicode title:
+
+    assemble: {
+      blog: {
+        options: {
+          chinese2latin: function(chinese) {
+            return require('pinyin_index')(chinese, {
+              output: function(pinyin_array, replaced) {
+                for (var i = 0; i < pinyin_array.length; i++) {
+                  pinyin_array[i] = pinyin_array[i].join('-');
+                }
+                return pinyin_array.join('-');
+              }
+            });
+          },
+          permalink: '/{{ chinese2latin(title) }}/'
+        },
+        ...
+      },
+      ...
+    }
+
+Page:
+
+    ---
+    title: 天生我材必有用，千金散尽还复来。
+    ---
+
+Get:
+
+    /tian-sheng-wo-cai-bi-you-yong-qian-jin-san-jin-huan-fu-lai/index.html
+
 See Also
 --------
 
