@@ -23,9 +23,16 @@
     "async": "~0.2.9",
     "lodash": "~2.4.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "assemble": "~0.4.32",
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0"
+  },
   "peerDependencies": {
-    "assemble": "~0.4.12"
+    "assemble": "~0.4.32"
+  },
+  "scripts": {
+    "test": "grunt test"
   },
   "keywords": [
     "assemble",
