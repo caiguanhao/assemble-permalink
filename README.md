@@ -91,6 +91,44 @@ If you don't want to use permalink option on some pages, add ``permalink:`` or `
     ---
     <p>example</p>
 
+Advanced
+--------
+
+You can define functions in assemble.options. For example:
+
+    assemble: {
+      blog: {
+        options: {
+          moment: require('moment'),
+          permalink: '/{{ moment(date).format("YYYY/MM") }}/{{ title }}/'
+        },
+        ...
+      },
+      ...
+    }
+
+or
+
+    assemble: {
+      blog: {
+        options: {
+          require: require,
+          permalink: '/{{ require("moment")(date).format("YYYY/MM") }}/{{ title }}/'
+        },
+        ...
+      },
+      ...
+    }
+
+and then in your pages, set title and moment.js-favored date:
+
+    ---
+    date: 2013-01-01T12:12:12+08:00
+    title: example
+    ---
+
+there you'll have 2013/01/example/index.html.
+
 See Also
 --------
 
