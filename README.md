@@ -5,6 +5,8 @@ A stupid permalink plugin for Assemble.
 
 Now, you have the freedom to customize the permalink of any page.
 
+[![Build Status](https://travis-ci.org/caiguanhao/assemble-permalink.png?branch=master)](https://travis-ci.org/caiguanhao/assemble-permalink)
+
 Usage
 -----
 
@@ -151,15 +153,34 @@ Another example generating the permalink of page having a Unicode title:
       ...
     }
 
-Page:
+In your page:
 
     ---
     title: 天生我材必有用，千金散尽还复来。
     ---
 
-Get:
+which is the same as:
+
+    ---
+    title: 天生我材必有用，千金散尽还复来。
+    permalink: <%= chinese2latin(title) %>
+    ---
+
+and you'll get:
 
     /tian-sheng-wo-cai-bi-you-yong-qian-jin-san-jin-huan-fu-lai/index.html
+
+Note
+----
+
+Avoid using JavaScript reserved words (e.g. ``case``) as variable name.
+
+If you have variables in your option assemble.options.permalink, in case the variable could not be found on any page, you can set a default value for that variable in assemble.options:
+
+    options: {
+      title: 'untitled',
+      permalink: '/{{ title }}/'
+    }
 
 See Also
 --------
