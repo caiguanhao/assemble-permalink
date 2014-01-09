@@ -61,6 +61,13 @@ module.exports = function(grunt) {
     isFile(dest + '/test/case/case_undefined.html');
     isFile(dest + '/' + grunt.config('assemble.options.language') + '.html');
     isFile(dest + '/var_yfm.html');
+    isFile(dest + '/multiple/1.html');
+    isFile(dest + '/multiple/2.html');
+    isFile(dest + '/multiple/3.html');
+    isFile(dest + '/multiple/4.html');
+    isFile(dest + '/articles/index.html');
+    isFile(dest + '/articles/long/index.html');
+    isFile(dest + '/articles/short/index.html');
 
     dest = 'test/tmp/with_opts';
     isFile(dest + '/somewhere-else/index.html');
@@ -70,6 +77,14 @@ module.exports = function(grunt) {
     isFile(dest + '/' + grunt.config('assemble.with_opts.options.title') + '/index.html');
     isFile(dest + '/' + grunt.config('assemble.options.language') + '.html');
     isFile(dest + '/var_yfm.html');
+    isFile(dest + '/multiple/1.html');
+    isFile(dest + '/multiple/2.html');
+    isFile(dest + '/multiple/3.html');
+    isFile(dest + '/multiple/4.html');
+    isFile(dest + '/articles/index.html');
+    isFile(dest + '/articles/long/index.html');
+    isFile(dest + '/articles/short/index.html');
+
 
     dest = 'test/tmp/advanced';
     var r = grunt.config('assemble.advanced.options.reverse');
@@ -81,6 +96,13 @@ module.exports = function(grunt) {
     isFile(dest + '/' + grunt.config('assemble.options.language') + '.html');
     isFile(dest + '/var_yfm.html');
     isFile(dest + '/c4ca4238a0b923820dcc509a6f75849b.html');
+    isFile(dest + '/multiple/1.html');
+    isFile(dest + '/multiple/2.html');
+    isFile(dest + '/multiple/3.html');
+    isFile(dest + '/multiple/4.html');
+    isFile(dest + '/articles/index.html');
+    isFile(dest + '/articles/long/index.html');
+    isFile(dest + '/articles/short/index.html');
   });
 
   grunt.loadNpmTasks('assemble');
