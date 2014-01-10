@@ -5,6 +5,10 @@ module.exports = function(params, callback) {
   var async    = require('async');
   var _        = require('lodash');
 
+  var PATH_SEP = path.sep.slice(-1);
+  var INDEX    = 'index.html';
+  var INDEX_RE = /index\.html$/;
+
   var assemble = params.assemble;
   var grunt    = params.grunt;
   var options  = assemble.options;
@@ -29,6 +33,10 @@ module.exports = function(params, callback) {
 
     var yfm = page.data;
     var permalink = defaults;
+    var dirname = page.dirname;
+    if (page.filePair && page.filePair.dest) {
+      dirname = page.filePair.dest;
+    }
 
     if (!_.isUndefined(yfm.permalink)) {
       permalink = yfm.permalink;
@@ -62,19 +70,14 @@ module.exports = function(params, callback) {
         permalink = permalink.trim();
         if (_.isEmpty(permalink)) continue;
 
-        var dirname = page.dirname;
-        if (page.filePair && page.filePair.dest) {
-          dirname = page.filePair.dest;
-        }
-
         page.dest = path.join(dirname, permalink);
 
-        if (page.dest.slice(-1) === path.sep.slice(-1)) {
+        if (page.dest.slice(-1) === PATH_SEP) {
           page.dest = path.join(page.dest, 'index.html');
         }
 
         if (page.data) {
-          page.data.permalink = permalink;
+          page.data.permalink = permalink.replace(INDEX_RE, '');
         }
 
         if (i > 0) {
@@ -85,8 +88,14 @@ module.exports = function(params, callback) {
     }
 
     if (!page.data.permalink) {
-      page.data.permalink = page.src;
+      page.data.permalink = page.dest.substr(dirname.length);
     }
+
+    if (page.data.permalink.slice(0, 1) !== PATH_SEP) {
+      page.data.permalink = PATH_SEP + page.data.permalink;
+    }
+
+    page.data.permalink = page.data.permalink.replace(INDEX_RE, '');
 
     next();
 
