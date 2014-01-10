@@ -5,15 +5,19 @@ module.exports = function(params, callback) {
   var async    = require('async');
   var _        = require('lodash');
 
-  var PATH_SEP = path.sep.slice(-1);
-  var INDEX    = 'index.html';
-  var INDEX_RE = /index\.html$/;
-
   var assemble = params.assemble;
   var grunt    = params.grunt;
   var options  = assemble.options;
   var pages    = options.pages;
   var defaults = options.permalink;
+
+  var escRegEx = function(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+  };
+
+  var PATH_SEP = path.sep.slice(-1);
+  var INDEX    = 'index.html';
+  var INDEX_RE = new RegExp(escRegEx(PATH_SEP + 'index.html') + '$');
 
   // parse lodash template <%= %>
   var parseTpl = function(input, data, page) {
@@ -36,10 +40,11 @@ module.exports = function(params, callback) {
 
   // standardize permalink output
   var standard = function(permalink) {
+    permalink = permalink || '';
     if (permalink.slice(0, 1) !== PATH_SEP) {
       permalink = PATH_SEP + permalink;
     }
-    permalink = permalink.replace(INDEX_RE, '');
+    permalink = permalink.replace(INDEX_RE, PATH_SEP);
     return permalink;
   };
 

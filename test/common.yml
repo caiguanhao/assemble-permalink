@@ -85,3 +85,10 @@
   data:
   content: |
     {{permalink}}
+
+
+- filename: "/fake_index.html"
+  data:
+    permalink: /fake_index.html
+  content: |
+    {{permalink}}

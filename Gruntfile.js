@@ -62,11 +62,16 @@ module.exports = function(grunt) {
 
   grunt.registerTask('check_files', 'Check files.', function() {
     var assert = require('assert');
+    var escRegEx = function(string) {
+      return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    };
+    var PATH_SEP = require('path').sep.slice(-1);
+    var INDEX_RE = new RegExp(escRegEx(PATH_SEP + 'index.html') + '$');
     var test = function(base, filepath) {
       var file = base + filepath;
       try {
         assert.strictEqual(grunt.file.read(file).trim(),
-          filepath.replace(/index\.html$/, ''));
+          filepath.replace(INDEX_RE, PATH_SEP));
         grunt.log.ok(file + ' passed.');
       } catch (e) {
         grunt.fail.fatal(e.message);
@@ -91,6 +96,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/long/index.html');
     test(dest, '/articles/short/index.html');
     test(dest, '/index.html');
+    test(dest, '/fake_index.html');
 
     dest = 'tmp/with_opts';
     test(dest, '/somewhere-else/index.html');
@@ -108,6 +114,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/long/index.html');
     test(dest, '/articles/short/index.html');
     test(dest, '/' + grunt.config('assemble.with_opts.options.title') + '/index.html');
+    test(dest, '/fake_index.html');
 
     dest = 'tmp/advanced';
     var r = grunt.config('assemble.advanced.options.reverse');
@@ -127,6 +134,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/long/index.html');
     test(dest, '/articles/short/index.html');
     test(dest, '/' + r(grunt.config('assemble.advanced.options.title')) + '/index.html');
+    test(dest, '/fake_index.html');
 
     dest = 'tmp/multiple';
     test(dest, '/{{two}}.html');
