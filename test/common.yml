@@ -92,3 +92,10 @@
     permalink: /fake_index.html
   content: |
     {{permalink}}
+
+
+- filename: "/page_variable.html"
+  data:
+    permalink: "/{{basename}}.html"
+  content: |
+    {{permalink}}

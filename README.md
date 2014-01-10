@@ -70,7 +70,7 @@ Both examples will generate two pages: /location/a/index.html and /location/b/in
 Permalink Template
 ------------------
 
-You can also use varialbes from assemble.options and the data in the YAML front matter to create a dynamic permalink:
+You can also use template to create a dynamic permalink:
 
     ---
     title: somewhere-else
@@ -78,15 +78,21 @@ You can also use varialbes from assemble.options and the data in the YAML front 
     ---
     <p>example</p>
 
-then you'll have /example-package/somewhere-else/index.html. For more info, see [lodash documentation](http://lodash.com/docs#template).
+then you'll have /example-package/somewhere-else/index.html. For more info about this template syntax, see [lodash documentation](http://lodash.com/docs#template).
+
+The template data come from three ways and in this order (the latter property will overwrite the former property):
+
+* Assemble options defined in Gruntfile.js.
+* The page object that contains these attributes: dirname, filename, pageName, pagename, basename, src, dest, assets, ext, extname, page, data, filePair.
+* Page's YAML Front Matter.
 
 Variable
 --------
 
-You can access ``{{permalink}}`` on all pages. Permalink will:
+You can access ``{{permalink}}`` on all pages and:
 
-* Start with a path separator such as "/"
-* Replace "/index.html" at the end of permalink string to "/".
+* it starts with a path separator such as "/"
+* "/index.html" at the end of permalink string will be replaced with "/"
 
 Assemble Options
 ----------------

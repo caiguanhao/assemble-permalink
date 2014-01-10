@@ -69,7 +69,7 @@ module.exports = function(params, callback) {
 
     if (!_.isEmpty(permalink)) {
 
-      var data = _.assign({}, options, yfm);
+      var data = _.assign({}, options, page, yfm);
       var permalinks;
 
       if (_.isString(permalink)) {

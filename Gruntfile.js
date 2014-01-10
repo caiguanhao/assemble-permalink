@@ -97,6 +97,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/short/index.html');
     test(dest, '/index.html');
     test(dest, '/fake_index.html');
+    test(dest, '/page_variable.html');
 
     dest = 'tmp/with_opts';
     test(dest, '/somewhere-else/index.html');
@@ -115,6 +116,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/short/index.html');
     test(dest, '/' + grunt.config('assemble.with_opts.options.title') + '/index.html');
     test(dest, '/fake_index.html');
+    test(dest, '/page_variable.html');
 
     dest = 'tmp/advanced';
     var r = grunt.config('assemble.advanced.options.reverse');
@@ -135,6 +137,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/short/index.html');
     test(dest, '/' + r(grunt.config('assemble.advanced.options.title')) + '/index.html');
     test(dest, '/fake_index.html');
+    test(dest, '/page_variable.html');
 
     dest = 'tmp/multiple';
     test(dest, '/{{two}}.html');
