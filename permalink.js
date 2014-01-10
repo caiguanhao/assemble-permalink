@@ -21,10 +21,13 @@ module.exports = function(params, callback) {
       grunt.fail.fatal(error.message + ' at ' + page.src);
     }
   };
+  var unescTpl = function(input) {
+    return input.replace(/{{/g, '<%=').replace(/}}/g, '%>');
+  };
 
   // convert {{ variable }} to <%= variable %>
   if (_.isString(defaults) && !_.isEmpty(defaults)) {
-    defaults = defaults.replace(/{{/g, '<%=').replace(/}}/g, '%>');
+    defaults = unescTpl(defaults);
   }
 
   async.each(pages, function(page, next) {
@@ -49,6 +52,7 @@ module.exports = function(params, callback) {
 
       if (_.isString(permalink)) {
 
+        permalink = unescTpl(permalink);
         permalink = parseTpl(permalink, data, page);
         permalink = permalink.trim();
         permalinks = permalink.split('\n');
@@ -66,6 +70,7 @@ module.exports = function(params, callback) {
         var permalink = permalinks[i];
         if (_.isEmpty(permalink)) continue;
 
+        permalink = unescTpl(permalink);
         permalink = parseTpl(permalink, data, page);
         permalink = permalink.trim();
         if (_.isEmpty(permalink)) continue;

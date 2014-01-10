@@ -1,17 +1,21 @@
 module.exports = function(grunt) {
 
+  var common = grunt.file.readYAML('test/common.yml');
+  var adv = grunt.file.readYAML('test/adv.yml');
+
   grunt.initConfig({
     clean: {
-      tmp: [ 'test/tmp' ]
+      tmp: [ 'tmp' ]
     },
     assemble: {
       options: {
         language: 'javascript',
-        plugins: [ './permalink.js' ]
+        plugins: [ './permalink.js' ],
+        pages: common
       },
       basic: {
         files: {
-          'test/tmp/basic/': [ 'test/case/index.hbs', 'test/case/case_*.hbs' ]
+          'tmp/basic/': []
         }
       },
       with_opts: {
@@ -20,7 +24,7 @@ module.exports = function(grunt) {
           permalink: '/{{ title }}/'
         },
         files: {
-          'test/tmp/with_opts/': [ 'test/case/index.hbs', 'test/case/case_*.hbs' ]
+          'tmp/with_opts/': []
         }
       },
       advanced: {
@@ -31,10 +35,11 @@ module.exports = function(grunt) {
           },
           require: require,
           title: 'untitled',
-          permalink: '/{{ reverse(title) }}/'
+          permalink: '/{{ reverse(title) }}/',
+          pages: common.concat(adv)
         },
         files: {
-          'test/tmp/advanced/': [ 'test/case/index.hbs', 'test/case/case_*.hbs', 'test/case/adv_case_*.hbs' ]
+          'tmp/advanced/': []
         }
       }
     }
@@ -55,12 +60,12 @@ module.exports = function(grunt) {
 
     var dest;
 
-    dest = 'test/tmp/basic';
+    dest = 'tmp/basic';
     test(dest, '/somewhere-else/index.html');
-    test(dest, '/test/case/case_empty.html');
+    test(dest, '/case_empty.html');
     test(dest, '/somewhere/else.html');
-    test(dest, '/test/case/case_null.html');
-    test(dest, '/test/case/case_undefined.html');
+    test(dest, '/case_null.html');
+    test(dest, '/case_undefined.html');
     test(dest, '/' + grunt.config('assemble.options.language') + '.html');
     test(dest, '/var_yfm.html');
     test(dest, '/multiple/1.html');
@@ -70,13 +75,13 @@ module.exports = function(grunt) {
     test(dest, '/articles/index.html');
     test(dest, '/articles/long/index.html');
     test(dest, '/articles/short/index.html');
-    test(dest, '/test/case/index.html');
+    test(dest, '/index.html');
 
-    dest = 'test/tmp/with_opts';
+    dest = 'tmp/with_opts';
     test(dest, '/somewhere-else/index.html');
-    test(dest, '/test/case/case_empty.html');
+    test(dest, '/case_empty.html');
     test(dest, '/somewhere/else.html');
-    test(dest, '/test/case/case_null.html');
+    test(dest, '/case_null.html');
     test(dest, '/' + grunt.config('assemble.with_opts.options.title') + '/index.html');
     test(dest, '/' + grunt.config('assemble.options.language') + '.html');
     test(dest, '/var_yfm.html');
@@ -89,7 +94,7 @@ module.exports = function(grunt) {
     test(dest, '/articles/short/index.html');
     test(dest, '/' + grunt.config('assemble.with_opts.options.title') + '/index.html');
 
-    dest = 'test/tmp/advanced';
+    dest = 'tmp/advanced';
     var r = grunt.config('assemble.advanced.options.reverse');
     test(dest, '/somewhere-else/index.html');
     test(dest, '/case_empty.html');

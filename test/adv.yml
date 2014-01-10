@@ -1,0 +1,6 @@
+- filename: "/adv_case_var_func.html"
+  data:
+    title: "1"
+    permalink: '{{ require("crypto").createHash("md5").update(title).digest("hex") }}.html'
+  content: |
+    {{permalink}}

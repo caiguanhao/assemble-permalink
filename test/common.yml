@@ -1,0 +1,87 @@
+- filename: "/case_dirname.html"
+  data:
+    title: dirname
+    permalink: /somewhere-else/
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_empty.html"
+  data:
+    title: empty
+    permalink: ''
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_filename.html"
+  data:
+    title: filename
+    permalink: /somewhere/else.html
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_null.html"
+  data:
+    title: 'null'
+    permalink:
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_undefined.html"
+  data:
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_var_options.html"
+  data:
+    title: var_options
+    permalink: "{{ language }}.html"
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_var_yfm.html"
+  data:
+    title: var_yfm.html
+    permalink: "{{ title }}"
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_multiline.html"
+  data:
+    title: filename
+    permalink: |
+      /multiple/1.html
+      /multiple/2.html
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_array.html"
+  data:
+    title: filename
+    permalink:
+      - /multiple/3.html
+      - /multiple/4.html
+  content: |
+    {{permalink}}
+
+
+- filename: "/case_multiline_adv.html"
+  data:
+    title: filename
+    articles: [ '', 'short', 'long' ]
+    permalink: "{{ articles.map(function(i){ return '/articles/' + (i ? i + '/' : ''); }).join('\\n') }}"
+  content: |
+    {{permalink}}
+
+
+- filename: "/index.html"
+  data:
+  content: |
+    {{permalink}}
