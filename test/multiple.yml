@@ -1,0 +1,6 @@
+- filename: "/multiple.html"
+  data:
+    one: FIRST
+    two: SECOND
+  content: |
+    {{permalink}}

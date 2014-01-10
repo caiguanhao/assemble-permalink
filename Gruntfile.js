@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
   var common = grunt.file.readYAML('test/common.yml');
   var adv = grunt.file.readYAML('test/adv.yml');
+  var multiple = grunt.file.readYAML('test/multiple.yml');
 
   grunt.initConfig({
     clean: {
@@ -40,6 +41,20 @@ module.exports = function(grunt) {
         },
         files: {
           'tmp/advanced/': []
+        }
+      },
+      multiple: {
+        options: {
+          one: "first",
+          two: "second",
+          permalink: [
+            "{{one}}.html",
+            "{{{{two}}}}.html"
+          ],
+          pages: multiple
+        },
+        files: {
+          'tmp/multiple/': []
         }
       }
     }
@@ -112,6 +127,10 @@ module.exports = function(grunt) {
     test(dest, '/articles/long/index.html');
     test(dest, '/articles/short/index.html');
     test(dest, '/' + r(grunt.config('assemble.advanced.options.title')) + '/index.html');
+
+    dest = 'tmp/multiple';
+    test(dest, '/{{two}}.html');
+    test(dest, '/FIRST.html');
   });
 
   grunt.loadNpmTasks('assemble');

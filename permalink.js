@@ -22,7 +22,18 @@ module.exports = function(params, callback) {
     }
   };
   var unescTpl = function(input) {
-    return input.replace(/{{/g, '<%=').replace(/}}/g, '%>');
+    return input.replace(/\{{2,}/g, function(match) {
+      return match.length > 2 ? match.substr(2) : '<%=';
+    }).replace(/\}{2,}/g, function(match) {
+      return match.length > 2 ? match.substr(2) : '%>';
+    });
+  };
+  var standard = function(permalink) {
+    if (permalink.slice(0, 1) !== PATH_SEP) {
+      permalink = PATH_SEP + permalink;
+    }
+    permalink = permalink.replace(INDEX_RE, '');
+    return permalink;
   };
 
   // convert {{ variable }} to <%= variable %>
@@ -81,9 +92,7 @@ module.exports = function(params, callback) {
           page.dest = path.join(page.dest, 'index.html');
         }
 
-        if (page.data) {
-          page.data.permalink = permalink.replace(INDEX_RE, '');
-        }
+        page.data.permalink = standard(permalink);
 
         if (i > 0) {
           page = _.cloneDeep(page);
@@ -96,11 +105,7 @@ module.exports = function(params, callback) {
       page.data.permalink = page.dest.substr(dirname.length);
     }
 
-    if (page.data.permalink.slice(0, 1) !== PATH_SEP) {
-      page.data.permalink = PATH_SEP + page.data.permalink;
-    }
-
-    page.data.permalink = page.data.permalink.replace(INDEX_RE, '');
+    page.data.permalink = standard(page.data.permalink);
 
     next();
 
