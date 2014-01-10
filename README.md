@@ -3,7 +3,10 @@ assemble-permalink
 
 A stupid permalink plugin for Assemble.
 
-Now, you have the freedom to customize the permalink of any page.
+✓ Customize the permalink of any page.  
+✓ Generate more than one page using the same template.  
+✓ Dynamic permalink based on Assemble options or page data.  
+✓ Read ``{{permalink}}`` from all pages.  
 
 [![Build Status](https://travis-ci.org/caiguanhao/assemble-permalink.png?branch=master)](https://travis-ci.org/caiguanhao/assemble-permalink)
 
@@ -32,7 +35,7 @@ Second, add ``'assemble-permalink'`` to your ``assemble.options.plugins``.
       ...
     };
 
-Now, you can add ``permalink`` to your pages:
+Now, you can use ``permalink`` on your pages:
 
     ---
     permalink: /somewhere/else/
@@ -41,10 +44,33 @@ Now, you can add ``permalink`` to your pages:
 
 then you'll have a /somewhere/else/index.html relative to the destination directory.
 
-Variable
---------
+Multiple Permalinks
+-------------------
 
-You can also use varialbes from assemble.options and the data in the YAML front matter:
+You can use a multiline string or an array to generate more than one page using the same template:
+
+    ---
+    permalink: |
+      /location/a/
+      /location/b/
+    ---
+    {{permalink}}
+
+or
+
+    ---
+    permalink:
+      - /location/a/
+      - /location/b/
+    ---
+    {{permalink}}
+
+Both examples will generate two pages: /location/a/index.html and /location/b/index.html with content /location/a/ and /location/b/ respectively.
+
+Permalink Template
+------------------
+
+You can also use varialbes from assemble.options and the data in the YAML front matter to create a dynamic permalink:
 
     ---
     title: somewhere-else
@@ -52,12 +78,22 @@ You can also use varialbes from assemble.options and the data in the YAML front 
     ---
     <p>example</p>
 
-then you'll have /example-package/somewhere-else/index.html.
+then you'll have /example-package/somewhere-else/index.html. For more info, see [lodash documentation](http://lodash.com/docs#template).
+
+Variable
+--------
+
+You can access ``{{permalink}}`` on all pages. Permalink will:
+
+* Start with a path separator such as "/"
+* Replace "/index.html" at the end of permalink string to "/".
 
 Assemble Options
 ----------------
 
-You can set ``permalink`` option for all pages in your Gruntfile.js. ``{{ variable }}`` will be converted to ``<%= varialbe %>``.
+You can set ``permalink`` option for all pages in your Gruntfile.js.
+
+Since grunt also parses lodash template (``<%= ... %>``), you can use ``{{`` and ``}}`` to escape ``<%=`` and ``%>``. If you really want ``{{`` and ``}}`` in the string, use ``{{{{`` and ``}}}}``.
 
     module.exports = function(grunt) {
       grunt.initConfig({
@@ -84,9 +120,9 @@ You can set ``permalink`` option for all pages in your Gruntfile.js. ``{{ variab
       ...
     };
 
-Now, each of your pages in ``site`` has the permalink option as ``/<%= pkg.name %>/<%= title %>/``, which ``pkg.name`` is defined in package.json and ``title`` can be different in pages.
+Now, each of your pages in ``site`` scope has the permalink option as ``/<%= pkg.name %>/<%= title %>/``, which ``pkg.name`` is defined in package.json and ``title`` can be different in pages.
 
-If you don't want to use permalink option on some pages, add ``permalink:`` or ``permalink: ''`` to YAML front matter.
+If you don't want to use global permalink option on some pages, add ``permalink:`` or ``permalink: ''`` to YAML front matter.
 
     ---
     permalink: ''
@@ -181,6 +217,15 @@ If you have variables in your option assemble.options.permalink, in case the var
       title: 'untitled',
       permalink: '/{{ title }}/'
     }
+
+And here is a simple text explaining how the conversion works:
+
+    { title }         -> { title }
+    {{ title }}       -> <%= title %>
+    {{{ title }}}     -> { title }
+    {{{{ title }}}}   -> {{ title }}
+    {{{{{ title }}}}} -> {{{ title }}}
+    ...
 
 See Also
 --------
