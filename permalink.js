@@ -17,7 +17,7 @@ module.exports = function(params, callback) {
 
   var PATH_SEP = path.sep.slice(-1);
   var INDEX    = 'index.html';
-  var INDEX_RE = new RegExp(escRegEx(PATH_SEP + 'index.html') + '$');
+  var INDEX_RE = new RegExp(escRegEx(PATH_SEP + INDEX) + '$');
 
   // parse lodash template <%= %>
   var parseTpl = function(input, data, page) {
