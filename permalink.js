@@ -14,6 +14,8 @@ module.exports = function(params, callback) {
   var options  = assemble.options;
   var pages    = options.pages;
   var defaults = options.permalink;
+
+  // parse lodash template <%= %>
   var parseTpl = function(input, data, page) {
     try {
       return _.template(input, data);
@@ -21,6 +23,9 @@ module.exports = function(params, callback) {
       grunt.fail.fatal(error.message + ' at ' + page.src);
     }
   };
+
+  // convert {{ variable }} to <%= variable %>
+  // {{{{ not_variable }}}} to {{ not_variable }}
   var unescTpl = function(input) {
     return input.replace(/\{{2,}/g, function(match) {
       return match.length > 2 ? match.substr(2) : '<%=';
@@ -28,6 +33,8 @@ module.exports = function(params, callback) {
       return match.length > 2 ? match.substr(2) : '%>';
     });
   };
+
+  // standardize permalink output
   var standard = function(permalink) {
     if (permalink.slice(0, 1) !== PATH_SEP) {
       permalink = PATH_SEP + permalink;
@@ -36,7 +43,6 @@ module.exports = function(params, callback) {
     return permalink;
   };
 
-  // convert {{ variable }} to <%= variable %>
   if (_.isString(defaults) && !_.isEmpty(defaults)) {
     defaults = unescTpl(defaults);
   }
