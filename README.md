@@ -233,6 +233,19 @@ And here is a simple text explaining how the conversion works:
     {{{{{ title }}}}} -> {{{ title }}}
     ...
 
+If you are using Grunt's [dynamic expansion](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically), you must set ``dest_for_permalink`` to tell assemble-permalink for the right destination directory.
+
+    assemble: {
+      ...,
+      products: {
+        expand: true,
+        cwd: 'products/',
+        src: [ '**/*.html' ],
+        dest: 'site/products/',
+        dest_for_permalink: 'site/'
+      }
+    }
+
 See Also
 --------
 

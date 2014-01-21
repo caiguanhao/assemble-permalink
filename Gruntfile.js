@@ -56,6 +56,17 @@ module.exports = function(grunt) {
         files: {
           'tmp/multiple/': []
         }
+      },
+      dynamic_expansion: {
+        options: {
+          pages: [],
+          permalink: '/dynamic_expansion.html'
+        },
+        expand: true,
+        cwd: 'test/',
+        src: [ 'expand.html' ],
+        dest: 'tmp/',
+        dest_for_permalink: 'tmp/'
       }
     }
   });
@@ -142,6 +153,9 @@ module.exports = function(grunt) {
     dest = 'tmp/multiple';
     test(dest, '/{{two}}.html');
     test(dest, '/FIRST.html');
+
+    dest = 'tmp';
+    test(dest, '/dynamic_expansion.html');
   });
 
   grunt.loadNpmTasks('assemble');
