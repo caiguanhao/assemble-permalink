@@ -60,7 +60,9 @@ module.exports = function(params, callback) {
     var permalink = defaults;
     var dirname = page.dirname;
     if (page.filePair && page.filePair.dest) {
-      dirname = page.filePair.dest_for_permalink || page.filePair.dest;
+      dirname = page.filePair.destForPermalink   ||
+                page.filePair.dest_for_permalink ||
+                page.filePair.dest;
     }
 
     if (!_.isUndefined(yfm.permalink)) {

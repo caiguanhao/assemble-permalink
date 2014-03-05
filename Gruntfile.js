@@ -96,7 +96,7 @@ module.exports = function(grunt) {
         cwd: 'test/',
         src: [ 'expand.html' ],
         dest: 'tmp/',
-        dest_for_permalink: 'tmp/'
+        destForPermalink: 'tmp/'
       }
     }
   });
