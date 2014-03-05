@@ -12,7 +12,37 @@ module.exports = function(grunt) {
       options: {
         language: 'javascript',
         plugins: [ './permalink.js' ],
-        pages: common
+        pages: common,
+        callbackPages: multiple,
+        permalinkCallback: function() {
+          // parent permalinkCallback function
+        }
+      },
+      callback: {
+        options: {
+          pages: '<%= assemble.options.callbackPages %>',
+          permalink: '/callback-test.html',
+          permalinkCallback: function() {
+            // child permalinkCallback function will use instead
+            var page = this;
+            // test:
+            if (page.data.permalink !== '/callback-test.html') {
+              grunt.fail.fatal('Error');
+            }
+            // You can add permalink property back to the pages object
+            // for other pages (after this target) to use:
+            var pages = grunt.config('assemble.options.callbackPages') || [];
+            pages.forEach(function(pg) {
+              if (page.src === pg.filename) {
+                pg.data.permalink = page.data.permalink;
+              }
+            });
+            // grunt.config('assemble.options.callbackPages', pages);
+          }
+        },
+        files: {
+          'tmp/callback/': []
+        }
       },
       basic: {
         files: {
@@ -156,6 +186,9 @@ module.exports = function(grunt) {
 
     dest = 'tmp';
     test(dest, '/dynamic_expansion.html');
+
+    dest = 'tmp/callback';
+    test(dest, '/callback-test.html');
   });
 
   grunt.loadNpmTasks('assemble');

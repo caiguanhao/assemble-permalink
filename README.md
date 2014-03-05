@@ -3,10 +3,10 @@ assemble-permalink
 
 A stupid permalink plugin for Assemble.
 
-✓ Customize the permalink of any page.  
-✓ Generate more than one page using the same template.  
-✓ Dynamic permalink based on Assemble options or page data.  
-✓ Read ``{{permalink}}`` from all pages.  
+* ✓ Customize the permalink of any page.
+* ✓ Generate more than one page using the same template.
+* ✓ Dynamic permalink based on Assemble options or page data.
+* ✓ Read ``{{permalink}}`` from all pages.
 
 [![Build Status](https://travis-ci.org/caiguanhao/assemble-permalink.png?branch=master)](https://travis-ci.org/caiguanhao/assemble-permalink)
 
@@ -137,6 +137,30 @@ If you don't want to use global permalink option on some pages, add ``permalink:
 
 Advanced
 --------
+
+### Callback function
+
+    assemble: {
+      options: {
+        permalinkCallback: function() {
+          // parent permalinkCallback function
+        }
+      },
+      blog: {
+        options: {
+          permalink: '...',
+          permalinkCallback: function() {
+            // child permalinkCallback function
+            var page = this;
+            ...
+          }
+        },
+        ...
+      },
+      ...
+    }
+
+### Functions in permalink
 
 You can define functions in assemble.options. For example:
 

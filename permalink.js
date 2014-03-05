@@ -118,6 +118,10 @@ module.exports = function(params, callback) {
 
     page.data.permalink = standard(page.data.permalink);
 
+    if (typeof options.permalinkCallback === 'function') {
+      options.permalinkCallback.call(page);
+    }
+
     next();
 
   });
